@@ -1,0 +1,114 @@
+!
+!
+!
+
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP2-AZ
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+memory-size iomem 5
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+!
+!
+no ip domain lookup
+ip auth-proxy max-nodata-conns 3
+ip admission max-nodata-conns 3
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!ip address dhcp
+ ip nat outside
+!
+!
+!
+!
+!
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.10.13.213 255.255.255.248
+ ip nat inside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+ standby 1 ip 10.10.13.214
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface FastEthernet0/1
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.13.208 0.0.0.7 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface FastEthernet0/1 overload
+!
+access-list 1 permit 10.10.13.0 0.0.0.63
+access-list 1 permit 10.10.13.64 0.0.0.31
+access-list 1 permit 10.10.13.96 0.0.0.15
+access-list 1 permit 10.10.13.112 0.0.0.15
+access-list 1 permit 10.10.13.208 0.0.0.7
+no cdp log mismatch duplex
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+!
+!
+end
