@@ -1,7 +1,11 @@
 ISP1_AG#sh run
 Building configuration...
 
-Current configuration : 1992 bytes
+*Jan  1 00:26:08.647: %SYS-5-CONFIG_I: Configured from console by console[OK]
+ISP1_AG#sh run 
+Building configuration...
+
+Current configuration : 2068 bytes
 !
 version 12.4
 service timestamps debug datetime msec
@@ -94,7 +98,10 @@ ip classless
 ip http server
 ip nat inside source list 1 interface FastEthernet0/1 overload
 ip nat inside source static tcp 10.10.11.180 53 192.168.13.15 53 extendable
+<<<<<<< HEAD
 ip nat inside source static udp 10.10.11.180 53 192.168.13.15 53 extendable
+=======
+>>>>>>> cc85ea8 (nat isp1 agueda dns)
 ip nat inside source static udp 10.10.11.180 1194 192.168.13.15 1194 extendabe
 !
 access-list 1 permit 10.10.11.0 0.0.0.63
