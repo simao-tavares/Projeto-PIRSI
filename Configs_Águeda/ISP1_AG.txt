@@ -93,6 +93,8 @@ ip classless
 !
 ip http server
 ip nat inside source list 1 interface FastEthernet0/1 overload
+ip nat inside source static tcp 10.10.11.180 53 192.168.13.15 53 extendable
+ip nat inside source static udp 10.10.11.180 53 192.168.13.15 53 extendable
 ip nat inside source static udp 10.10.11.180 1194 192.168.13.15 1194 extendabe
 !
 access-list 1 permit 10.10.11.0 0.0.0.63
