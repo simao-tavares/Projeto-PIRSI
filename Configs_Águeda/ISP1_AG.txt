@@ -1,0 +1,86 @@
+ISP1_AG#sh run
+Building configuration...
+
+Current configuration : 1307 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP1_AG
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+resource policy
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+ip subnet-zero
+ip cef    
+!
+!
+no ip dhcp use vrf connected
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.10.11.212 255.255.255.248
+ ip nat inside
+ duplex auto
+ speed auto
+ standby 1 ip 10.10.11.214
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface FastEthernet0/1
+ ip address dhcp
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 125000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.11.208 0.0.0.7 area 0
+!
+ip classless
+!
+ip http server
+ip nat inside source list 1 interface FastEthernet0/1 overload
+ip nat inside source static udp 10.10.11.180 1194 192.168.13.15 1194 extendabe
+!
+access-list 1 permit 10.10.11.0 0.0.0.63
+access-list 1 permit 10.10.11.64 0.0.0.31
+access-list 1 permit 10.10.11.96 0.0.0.31
+access-list 1 permit 10.10.11.128 0.0.0.31
+access-list 1 permit 10.10.11.160 0.0.0.15
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+warm-reboot
+end
