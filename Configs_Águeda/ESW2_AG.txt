@@ -1,0 +1,166 @@
+ESW2_AG#sh run
+Building configuration...
+
+Current configuration : 2333 bytes
+!
+version 12.3
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ESW2_AG
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+resource policy
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+ip subnet-zero
+ip cef    
+!
+!
+no ip dhcp use vrf connected
+!
+!
+no ip ips deny-action ips-interface
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.10.11.210 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0/0
+ switchport mode trunk
+!
+interface FastEthernet0/0/1
+ switchport mode trunk
+!
+interface FastEthernet0/0/2
+!         
+interface FastEthernet0/0/3
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 125000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ ip address 10.10.11.61 255.255.255.192
+ standby 1 ip 10.10.11.62
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan11
+ ip address 10.10.11.93 255.255.255.224
+ standby 1 ip 10.10.11.94
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan12
+ ip address 10.10.11.125 255.255.255.224
+ standby 1 ip 10.10.11.126
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan13
+ ip address 10.10.11.157 255.255.255.224
+ standby 1 ip 10.10.11.158
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan14
+ ip address 10.10.11.173 255.255.255.240
+ standby 1 ip 10.10.11.174
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan15
+ ip address 10.10.11.189 255.255.255.240
+ standby 1 ip 10.10.11.190
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface Vlan16
+ ip address 10.10.11.195 255.255.255.240
+ standby 1 ip 10.10.11.196
+ standby 1 priority 120
+ standby 1 preempt
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.11.0 0.0.0.63 area 0
+ network 10.10.11.64 0.0.0.31 area 0
+ network 10.10.11.96 0.0.0.31 area 0
+ network 10.10.11.128 0.0.0.31 area 0
+ network 10.10.11.160 0.0.0.15 area 0
+ network 10.10.11.176 0.0.0.15 area 0
+ network 10.10.11.192 0.0.0.15 area 0
+ network 10.10.11.208 0.0.0.7 area 0
+!
+ip classless
+!
+!
+ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login    
+!
+end
