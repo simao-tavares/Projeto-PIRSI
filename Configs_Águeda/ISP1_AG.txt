@@ -1,7 +1,7 @@
 ISP1_AG#sh run
 Building configuration...
 
-Current configuration : 1307 bytes
+Current configuration : 1992 bytes
 !
 version 12.4
 service timestamps debug datetime msec
@@ -32,6 +32,33 @@ no ip dhcp use vrf connected
 !
 !
 !
+!
+interface Tunnel0
+ description Tunnel_ISP1-AG_ISP1-AV
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.233
+!
+interface Tunnel1
+ description Tunnel_ISP1-AG_ISP2-AV
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.70
+!         
+interface Tunnel2
+ description Tunnel_ISP1-AG_ISP1-AZ
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.115
+!
+interface Tunnel3
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.32
 !
 interface FastEthernet0/0
  ip address 10.10.11.212 255.255.255.248
@@ -73,6 +100,7 @@ access-list 1 permit 10.10.11.64 0.0.0.31
 access-list 1 permit 10.10.11.96 0.0.0.31
 access-list 1 permit 10.10.11.128 0.0.0.31
 access-list 1 permit 10.10.11.160 0.0.0.15
+access-list 1 permit 10.10.11.176 0.0.0.15
 !
 control-plane
 !
