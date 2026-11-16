@@ -1,0 +1,147 @@
+ESW1_AG#sh run
+Building configuration...
+
+Current configuration : 2189 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ESW1_AG
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+ip cef
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!         
+! 
+!
+!
+!
+archive
+ log config
+  hidekeys
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.10.11.209 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!         
+interface FastEthernet0/0/0
+ switchport mode trunk
+!
+interface FastEthernet0/0/1
+ switchport mode trunk
+!
+interface FastEthernet0/0/2
+!
+interface FastEthernet0/0/3
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ ip address 10.10.11.60 255.255.255.192
+ no autostate
+ standby 1 ip 10.10.11.62
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan11
+ ip address 10.10.11.92 255.255.255.224
+ no autostate
+ standby 1 ip 10.10.11.94
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan12
+ ip address 10.10.11.124 255.255.255.224
+ no autostate
+ standby 1 ip 10.10.11.126
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan13
+ ip address 10.10.11.156 255.255.255.224
+ no autostate
+ standby 1 ip 10.10.11.158
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan14
+ ip address 10.10.11.172 255.255.255.240
+ no autostate
+ standby 1 ip 10.10.11.174
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan15
+ ip address 10.10.11.188 255.255.255.240
+ no autostate
+ standby 1 ip 10.10.11.190
+ standby 1 priority 110
+ standby 1 preempt
+!
+interface Vlan16
+ ip address 10.10.11.194 255.255.255.240
+ no autostate
+ standby 1 ip 10.10.11.196
+ standby 1 priority 110
+ standby 1 preempt
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.11.0 0.0.0.63 area 0
+ network 10.10.11.64 0.0.0.31 area 0
+ network 10.10.11.96 0.0.0.31 area 0
+ network 10.10.11.128 0.0.0.31 area 0
+ network 10.10.11.160 0.0.0.15 area 0
+ network 10.10.11.176 0.0.0.15 area 0
+ network 10.10.11.192 0.0.0.15 area 0
+ network 10.10.11.208 0.0.0.7 area 0
+!
+!
+!
+ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login    
+!
+scheduler allocate 20000 1000
+
+!
+webvpn cef
+end
