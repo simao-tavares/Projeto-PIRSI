@@ -1,11 +1,102 @@
 ISP1_AG#sh run
 Building configuration...
 
-*Jan  1 00:26:08.647: %SYS-5-CONFIG_I: Configured from console by console[OK]
-ISP1_AG#sh run 
+Current configuration : 2144 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP1_AG
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+resource policy
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+ip subnet-zero
+ip cef    
+!
+!
+no ip dhcp use vrf connected
+!
+!
+!
+!
+!
+!
+interface Tunnel0
+ description Tunnel_ISP1-AG_ISP1-AV
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.233
+!
+interface Tunnel1
+ description Tunnel_ISP1-AG_ISP2-AV
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.70
+!         
+interface Tunnel2
+ description Tunnel_ISP1-AG_ISP1-AZ
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.115
+!
+interface Tunnel3
+ ip unnumbered FastEthernet0/1
+ ip ospf 1 area 0
+ tunnel source 192.168.13.15
+ tunnel destination 192.168.229.32
+!
+interface FastEthernet0/0
+ ip address 10.10.11.212 255.255.255.248
+ ip nat inside
+ duplex auto
+ speed auto
+ standby 1 ip 10.10.11.214
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface FastEthernet0/1
+ ip address dhcp
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ clock rate 125000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.10.11.208 0.0.0.7 area 0
+!
+ip classless
+!
+ip http server
+          
+ISP1_AG#sh run
 Building configuration...
 
-Current configuration : 2068 bytes
+Current configuration : 2144 bytes
 !
 version 12.4
 service timestamps debug datetime msec
@@ -99,9 +190,13 @@ ip http server
 ip nat inside source list 1 interface FastEthernet0/1 overload
 ip nat inside source static tcp 10.10.11.180 53 192.168.13.15 53 extendable
 <<<<<<< HEAD
+<<<<<<< HEAD
 ip nat inside source static udp 10.10.11.180 53 192.168.13.15 53 extendable
 =======
 >>>>>>> cc85ea8 (nat isp1 agueda dns)
+=======
+ip nat inside source static udp 10.10.11.180 53 192.168.13.15 53 extendable
+>>>>>>> b5183a0 (configs)
 ip nat inside source static udp 10.10.11.180 1194 192.168.13.15 1194 extendabe
 !
 access-list 1 permit 10.10.11.0 0.0.0.63
